@@ -40,7 +40,7 @@ export default {
       const numberOfIngredients = Math.max(this.search.split(',').length, 2);
       const payload = {
         q: this.search,
-        ingr: `1-${numberOfIngredients}`
+        ingr: `1-${numberOfIngredients + 3}`
       };
 
       await this.searchRecipes(payload);
@@ -63,7 +63,7 @@ export default {
       const numberOfIngredients = Math.max(this.search.split(',').length, 2);
       const payload = {
         q: this.search,
-        ingr: `1-${numberOfIngredients}`
+        ingr: `1-${numberOfIngredients + 3}`
       };
       await this.searchRecipes(payload)
     },
