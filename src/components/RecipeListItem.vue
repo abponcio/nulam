@@ -7,7 +7,7 @@
             <div class="text-left p-1.5">
                 <div class="pb-2 border-b-1 border-dashed">
                     <h2 class="text-base font-semibold"><a :href="recipe.url" target="_blank">{{recipe.label}}</a></h2>
-                    <small class="text-gray-400">Good for {{recipe.yield}}</small>
+                    <small class="text-gray-400">Good for {{recipe.yield}} | Calories: {{numeral(recipe.calories).format('0,0[.]00')}}</small>
                 </div>
                 <ul class="list-none pl-1.5">
                     <li class="text-left px-0.5 py-1 line-clamp-3" v-for="(ingredient, key) in recipe.ingredientLines" :key="key">{{ingredient}}</li>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import numeral from 'numeral';
 export default {
     name: 'RecipeListItem',
     props: {
@@ -26,6 +27,9 @@ export default {
             default: null,
         },
     },
+    data: () => ({
+        numeral,
+    }),
     computed: {
         recipe() {
             return this.item.recipe;
