@@ -1,6 +1,6 @@
 <template>
   <div class="home p-3">
-    <section class="mb-8">
+    <section class="mb-8 form-section" :class="{'full-height': !$route.query.search}">
       <h1 class="text-xl mb-2">What ingredients do you have?</h1>
       <form @submit.prevent="submit" class="md:flex md:items-center md:justify-center">
         <input type="search" class="form-input p-3 rounded w-full md:w-1/2 md:rounded-r-none" v-model="search" placeholder="e.g. 2 Eggs, 500grams breast chicken, pasta, ...">
@@ -9,7 +9,7 @@
 
     </section>
 
-    <section>
+    <section v-if="$route.query.search">
       <div class="results-counter text-left flex justify-between">
         <div class="font-semibold text-xl">
           Found {{recipeMeta.count}} recipes
@@ -78,3 +78,12 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.full-height {
+  margin-top: 10rem;
+}
+.form-section {
+  transition: margin 0.3s linear;
+}
+</style>
