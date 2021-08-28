@@ -8,6 +8,7 @@ module.exports = {
       },
       fontFamily: {
         'body': ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'icon': ['LineIcons'],
       }
     },
   },
