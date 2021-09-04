@@ -34,7 +34,7 @@ export default {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto;
-    gap: 2rem;
+    gap: 3rem;
 }
 @screen sm {
     .grid {

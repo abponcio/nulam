@@ -8744,6 +8744,11 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
   integrity sha1-UylVzB6yCKPZkLOp+acFdGV+CPI=
 
+vue-inline-svg@^3.0.0-beta.3:
+  version "3.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/vue-inline-svg/-/vue-inline-svg-3.0.0-beta.3.tgz#50c6d7799de2c87a60a3f8f24655cca15188bae3"
+  integrity sha512-sLbQ1DsoufDN3gGeSWF3Vf2TZqBA5RaFW7py3FPLCpyl6LstewDKNXMpQlgf1y8puMV3vFzfBFGbZ+YjKlCBPg==
+
 "vue-loader-v16@npm:vue-loader@^16.1.0":
   version "16.5.0"
   resolved "https://registry.nlark.com/vue-loader/download/vue-loader-16.5.0.tgz?cache=0&sync_timestamp=1628666904882&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fvue-loader%2Fdownload%2Fvue-loader-16.5.0.tgz#09c4e0712466899e34b99a686524f19165fb2892"

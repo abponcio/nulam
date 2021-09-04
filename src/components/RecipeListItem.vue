@@ -1,16 +1,16 @@
 <template>
-    <div class="rounded-xl overflow-hidden shadow-md">
+    <div class="rounded-14 overflow-hidden shadow-md">
         <a :href="recipe.url" target="_blank">
             <div>
                 <img :src="recipe.image" :alt="recipe.label" loading="lazy" class="rounded rounded-b-none object-cover w-full h-auto">
             </div>
-            <div class="text-left py-6 px-5">
+            <div class="text-left py-20 px-15">
                 <div class="pb-2 border-b-1 border-dashed">
-                    <h2 class="text-base font-semibold">{{recipe.label}}</h2>
+                    <h2 class="text-18 leading-multiline font-semibold">{{recipe.label}}</h2>
                     <small class="text-gray-400">Good for {{recipe.yield}} | Calories: {{numeral(recipe.calories).format('0,0[.]00')}}</small>
                 </div>
                 <ul class="checklist ml-4 mt-2">
-                    <li class="text-left px-0.5 py-1 text-xs" v-for="(ingredient, key) in recipe.ingredientLines" :key="key">
+                    <li class="text-left px-0.5 py-1 text-10 leading-multiline" v-for="(ingredient, key) in recipe.ingredientLines" :key="key">
                         <div class="line-clamp-3">
                             {{ingredient}}
                         </div>
