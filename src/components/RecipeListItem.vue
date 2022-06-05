@@ -9,16 +9,18 @@
                     <h2 class="text-18 leading-multiline font-semibold">{{item.title}}</h2>
                 </div>
                 <div class="mt-2">
-                    <ul class="checklist ml-15">
-                        <li class="text-left px-0.5 py-1 text-12 leading-multiline" v-for="(ingredient, key) in item.usedIngredients" :key="key">
-                            <div class="line-clamp-3">
+                    <ul class="checklist">
+                        <li class="text-left px-0.5 py-1 text-12 leading-multiline flex gap-4 items-center" v-for="(ingredient, key) in item.usedIngredients" :key="key">
+                            <i class="lni lni-checkmark text-green-500"/>
+                            <div class="line-clamp-3 font-bold">
                                 {{ingredient.name}} - {{ingredient.amount}} {{ingredient.unitShort}}
                             </div>
                         </li>
                     </ul>
-                    <ul class="closelist ml-15">
-                        <li class="text-left px-0.5 py-1 text-12 leading-multiline" v-for="(ingredient, key) in item.missedIngredients" :key="key">
-                            <div class="line-clamp-3 text-red">
+                    <ul class="closelist">
+                        <li class="text-left px-0.5 py-1 text-12 leading-multiline flex gap-4 items-center" v-for="(ingredient, key) in item.missedIngredients" :key="key">
+                            <i class="lni lni-close text-red-500"/>
+                            <div class="line-clamp-3">
                                 {{ingredient.name}} - {{ingredient.amount}} {{ingredient.unitShort}}
                             </div>
                         </li>
@@ -67,21 +69,19 @@ export default {
     opacity: 0.5;
     pointer-events: none;
 }
-.checklist {
-    list-style: initial;
+.checklist, .closelist {
+    list-style: none;
+}
+.closelist i {
+    @apply text-red-500;
+}
+.checklist i {
+    @apply text-green-500;
 }
 .checklist li {
     @apply pl-4;
 }
-.checklist li::marker {
-    content: '\ea5b';
-    @apply font-icon text-green-600;
-}
 .closelist li {
     @apply pl-4;
-}
-.closelist li::marker {
-    content: '\ea6a';
-    @apply font-icon text-red-800;
 }
 </style>
