@@ -19,8 +19,8 @@
                     </ul>
                     <ul class="closelist">
                         <li class="text-left px-0.5 py-1 text-12 leading-multiline flex gap-4 items-center" v-for="(ingredient, key) in item.missedIngredients" :key="key">
-                            <i class="lni lni-close text-red-500"/>
-                            <div class="line-clamp-3">
+                            <id class="lni lni-line-dotted text-gray-500"/>
+                            <div class="line-clamp-3 text-gray-500">
                                 {{ingredient.name}} - {{ingredient.amount}} {{ingredient.unitShort}}
                             </div>
                         </li>

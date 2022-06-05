@@ -4,7 +4,7 @@ import api from '@/api';
 export default createStore({
   state: {
     meta: {
-      number: 25,
+      number: 50,
     },
     loading: false,
     recipeLoading: false,
@@ -32,8 +32,10 @@ export default createStore({
       commit('setLoading', true);
       commit('setRecipesList', []);
 
+      const sanitize = params.ingredients ? params.ingredients.split(',').map(ing => ing.trim()).join(',') : '';
+
       // api search here
-      const results = await api('get', '/recipes/findByIngredients', {...params, ...state.meta});
+      const results = await api('get', '/recipes/findByIngredients', {ingredients: sanitize, ...state.meta});
       commit('setRecipesList', results);
       commit('setLoading', false);
     },
