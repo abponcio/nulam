@@ -40,11 +40,11 @@
           <button
             class="rounded-14 bg-orange border-1 border-orange text-white md:rounded-l-none w-full md:w-auto p-18"
           >
-            <template>Find Recipes</template>
+            Find Recipes
           </button>
         </form>
       </section>
-      <div ref="plate" class="plate-rotate rotate md:max-w-1140 w-full h-auto" :class="{'remove': $route.query.search}">
+      <div ref="plate" class="plate-rotate rotate md:max-w-1140 w-full h-auto" v-if="!this.search">
         <inline-svg :src="require('@/assets/svg/plate.svg')" width="100%"/>
       </div>
     </div>
@@ -64,6 +64,11 @@ export default {
   data: () => ({
     search: '',
   }),
+  watch: {
+    ['$route.query.search'](value) {
+      this.search = value;
+    },
+  },
   computed: {
     ...mapState(['recipes']),
   },
@@ -71,9 +76,6 @@ export default {
     document.body.classList.add('js-loading');
 
     window.addEventListener('load', this.showPage, false);
-  },
-  created() {
-    this.search = this.$route?.query?.search;
   },
   methods: {
     ...mapActions(['searchRecipes', 'getNewRecipes']),

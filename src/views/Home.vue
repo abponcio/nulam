@@ -26,6 +26,7 @@ export default {
   }),
   async created() {
     this.search = this.$route?.query?.search || '';
+    this.$emit('search', this.search);
 
     if (this.search) {
       const payload = {
