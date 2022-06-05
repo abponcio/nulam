@@ -4,7 +4,7 @@ import api from '@/api';
 export default createStore({
   state: {
     meta: {
-      number: 10,
+      number: 25,
     },
     loading: false,
     recipeLoading: false,
