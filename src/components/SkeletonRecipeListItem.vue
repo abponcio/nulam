@@ -1,20 +1,19 @@
 <template>
-    <div class="rounded shadow-md">
-        <div class="relative group text-primary-500" style="padding-top: 70%">
-            <div class="absolute top-0 left-0 h-full w-full">
-                <span class="skeleton-box group-hover:scale-110 transition-transform transform-center block h-full"></span>
+    <div class="rounded-14 shadow-md">
+        <div class="relative group text-primary-500 rounded-t-14" style="padding-top: 70%">
+            <div class="absolute top-0 left-0 h-full w-full rounded-t-14">
+                <span class="skeleton-box group-hover:scale-110 transition-transform transform-center block h-full rounded-t-14"></span>
             </div>
         </div>
-        <div class="text-left p-1.5">
-            <div class="pb-2 border-b-1 border-dashed">
-                <div class="text-lg font-bold text-gray-darkest skeleton-box h-7 w-3/4 mb-1.5"></div>
-                <div class="skeleton-box h-3 w-1/6"></div>
+        <div class="text-left p-15">
+            <div class="pb-4 border-b-1 border-dashed">
+                <div class="text-lg font-bold text-gray-darkest skeleton-box h-7 w-3/4 mb-2 rounded-14"></div>
             </div>
-            <div class="pl-1">
-                <div class="skeleton-box my-1 h-5 w-1/3"></div>
-                <div class="skeleton-box my-1 h-5 w-1/2"></div>
-                <div class="skeleton-box my-1 h-5 w-1/4"></div>
-                <div class="skeleton-box my-1 h-5 w-1/2"></div>
+            <div class="pt-4">
+                <div class="skeleton-box my-4 h-5 w-1/3 rounded-14"></div>
+                <div class="skeleton-box my-4 h-5 w-1/2 rounded-14"></div>
+                <div class="skeleton-box my-4 h-5 w-1/4 rounded-14"></div>
+                <div class="skeleton-box my-4 h-5 w-1/2 rounded-14"></div>
             </div>
         </div>
     </div>
@@ -30,7 +29,8 @@ export default {
 .skeleton-box {
   position: relative;
   overflow: hidden;
-  background-color: #e2e8f0;
+  background-color: #FF9F0E;
+  opacity: 0.4;
 }
 
 .skeleton-box::after {

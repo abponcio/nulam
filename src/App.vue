@@ -12,7 +12,7 @@
       </router-link>
       <h2 class="font-cursive text-center text-20 mt-1.5 tracking-6.4" v-show="!$route.query.search">( ANONG ULAM? )</h2>
       <section class="form-section" :class="{'mt-60': !$route.query.search}">
-        <h1 class="text-24 leading-29 text-white mb-2" v-show="!$route.query.search">Enter ingredients that you have?</h1>
+        <h1 class="text-24 leading-29 text-white mb-4" v-show="!$route.query.search">Enter ingredients that you have?</h1>
         <form
           v-if="$route.query.search"
           @submit.prevent="submit"
