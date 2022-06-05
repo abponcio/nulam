@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="isolate px-gutter text-center search-form bg-yellow-gradient h-screen overflow-hidden py-74"
+      class="isolate px-gutter text-center search-form bg-yellow-gradient h-screen overflow-hidden py-74 relative"
       :class="{'search-container gap-6': $route.query.search}"
     >
       <router-link
@@ -12,7 +12,7 @@
       </router-link>
       <h2 class="font-cursive text-center text-20 mt-1.5 tracking-6.4" v-show="!$route.query.search">( ANONG ULAM? )</h2>
       <section class="form-section" :class="{'mt-60': !$route.query.search}">
-        <h1 class="text-24 leading-29 text-white mb-4" v-show="!$route.query.search">Enter ingredients that you have?</h1>
+        <h1 class="text-24 leading-29 text-white mb-gutter" v-show="!$route.query.search">Enter ingredients that you have?</h1>
         <form
           v-if="$route.query.search"
           @submit.prevent="submit"
@@ -102,7 +102,7 @@ input:placeholder-shown {
   isolation: isolate;
 }
 .plate-rotate {
-  position: fixed;
+  position: absolute;
   top: 100vh;
   left: 50%;
   z-index: -1;
