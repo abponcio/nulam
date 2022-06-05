@@ -46,3 +46,15 @@ button, input, optgroup {
     font-size: 1.8rem;
     line-height: 2.2rem;
 }
+
+.js-loading *,
+.js-loading *:before,
+.js-loading *:after {
+  animation-play-state: paused !important;
+}
+
+
+.js-loading {
+    opacity: 0.5;
+    pointer-events: none;
+  }

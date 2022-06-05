@@ -15,16 +15,16 @@
         <h1 class="text-24 leading-29 text-white mb-2" v-show="!$route.query.search">Enter ingredients that you have?</h1>
         <form
           @submit.prevent="submit"
-          class="flex items-center"
+          class="flex items-center flex-wrap gap-4 md:gap-0"
           :class="!$route.query.search ? 'justify-center' : 'ml-15'">
           <input
             type="text"
-            class="form-input p-18 focus:outline-none border-0 outline-none rounded-14 md:w-1/2 w-full rounded-r-none"
+            class="form-input p-18 focus:outline-none border-0 outline-none rounded-14 md:w-1/2 w-full md:rounded-r-none"
             :class="{'form-search': $route.query.search}"
             v-model="search"
-            placeholder="e.g. eggs, chicken, corn">
+            placeholder="e.g. eggs,chicken,corn">
           <button
-            class="rounded-14 bg-orange border-1 border-orange text-white rounded-l-none w-auto p-18"
+            class="rounded-14 bg-orange border-1 border-orange text-white md:rounded-l-none w-full md:w-auto p-18"
             :class="{'form-search': $route.query.search}"
           >
             <template v-if="$route.query.search"><i class="font-icon lni lni-search-alt"></i></template>
@@ -32,7 +32,7 @@
           </button>
         </form>
       </section>
-      <div ref="plate" class="plate-rotate rotate max-w-1140 w-1140" :class="{'remove': $route.query.search}">
+      <div ref="plate" class="plate-rotate rotate md:max-w-1140 w-full h-auto" :class="{'remove': $route.query.search}">
         <inline-svg :src="require('@/assets/svg/plate.svg')" width="100%"/>
       </div>
     </div>
@@ -57,6 +57,10 @@ export default {
   },
   beforeMount() {
     window.addEventListener('scroll', this.handleScroll);
+
+    document.body.classList.add('js-loading');
+
+    window.addEventListener('load', this.showPage, false);
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
@@ -66,6 +70,9 @@ export default {
   },
   methods: {
     ...mapActions(['searchRecipes', 'getNewRecipes']),
+    showPage() {
+      document.body.classList.remove('js-loading');
+    },
     async submit() {
       this.$router.push({query: {search: this.search}});
 
@@ -89,6 +96,9 @@ export default {
 </script>
 
 <style scoped>
+input:placeholder-shown {
+  text-overflow: ellipsis;
+}
 .isolate {
   isolation: isolate;
 }
@@ -97,6 +107,10 @@ export default {
   top: 100vh;
   left: 50%;
   z-index: -1;
+}
+
+.plate-rotate svg {
+  height: auto;
 }
 
 .rotate {
@@ -140,9 +154,11 @@ export default {
 @keyframes plate {
   from {
     transform: translate(-50%, 0) rotate(180deg);
+    top: 100%;
   }
   to {
-    transform: translate(-50%, -70vmin) rotate(0);
+    transform: translate(-50%, -50%) rotate(0);
+    top: 100%;
   }
 }
 </style>
