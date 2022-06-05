@@ -1,56 +1,50 @@
 import { createStore } from 'vuex';
 import api from '@/api';
 
-const defaultMeta = {
-  from: 0,
-  to: 0,
-  count: 0,
-  _links: {},
-};
-
 export default createStore({
   state: {
-    recipes: [],
-    recipeMeta: {
-      from: 0,
-      to: 0,
-      count: 0,
-      _links: {},
+    meta: {
+      number: 10,
     },
     loading: false,
+    recipeLoading: false,
   },
   mutations: {
     setLoading(state, value) {
       state.loading = value;
     },
-    setRecipesList(state, {value, meta}) {
-      state.recipes = value;
-
-      delete meta.hits;
-      state.recipeMeta = Object.assign(state.recipeMeta, meta);
+    setRecipeLoading(state, value) {
+      state.recipeLoading = value;
     },
-    pushRecipesList(state, {value, meta}) {
-      state.recipes = [...state.recipes, ...value];
+    setRecipesList(state, results) {
+      state.recipes = results;
+    },
+    getRecipeInfo(state, result) {
+      const recipeIndex = state.recipes.findIndex(recipe => recipe.id === result.id);
 
-      delete meta.hits;
-      state.recipeMeta = Object.assign(state.recipeMeta, meta);
+      if (recipeIndex > -1) {
+        Object.assign(state.recipes[recipeIndex], result);
+      }
     },
   },
   actions: {
-    async searchRecipes({commit}, params) {
+    async searchRecipes({commit, state}, params) {
       commit('setLoading', true);
-      commit('setRecipesList', {value: [], meta: defaultMeta});
+      commit('setRecipesList', []);
+
       // api search here
-      const results = await api('get', '/recipes/v2', params);
-      commit('setRecipesList', {value: results.hits, meta: results});
+      const results = await api('get', '/recipes/findByIngredients', {...params, ...state.meta});
+      commit('setRecipesList', results);
       commit('setLoading', false);
     },
-    async getNewRecipes({commit}, endpoint) {
-      commit('setLoading', true);
+    async getRecipeInformation({commit}, id) {
+      commit('setRecipeLoading', true);
+
       // api search here
-      const results = await api('get', endpoint);
-      commit('pushRecipesList', {value: results.hits, meta: results});
-      commit('setLoading', false);
+      const results = await api('get', `/recipes/${id}/information`, {includeNutrition: false});
+
+      commit('getRecipeInfo', results);
+      commit('setRecipeLoading', false);
     },
   },
 })

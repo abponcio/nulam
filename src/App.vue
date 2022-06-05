@@ -2,7 +2,7 @@
   <div>
     <div
       class="isolate px-gutter text-center search-form bg-yellow-gradient h-screen overflow-hidden py-74"
-      :class="{'search-container': $route.query.search}"
+      :class="{'search-container gap-6': $route.query.search}"
     >
       <router-link
         to="/"
@@ -14,21 +14,33 @@
       <section class="form-section" :class="{'mt-60': !$route.query.search}">
         <h1 class="text-24 leading-29 text-white mb-2" v-show="!$route.query.search">Enter ingredients that you have?</h1>
         <form
+          v-if="$route.query.search"
           @submit.prevent="submit"
-          class="flex items-center flex-wrap gap-4 md:gap-0"
-          :class="!$route.query.search ? 'justify-center' : 'ml-15'">
+          class="flex items-center flex-grow-0 justify-end">
+          <input
+            type="text"
+            class="form-search form-input p-18 focus:outline-none border-0 outline-none rounded-14 md:w-1/2 w-full rounded-r-none"
+            v-model="search"
+            placeholder="e.g. eggs,chicken,corn">
+          <button
+            class="form-search rounded-14 bg-orange border-0 border-orange text-white rounded-l-none p-18"
+          >
+            <i class="font-icon lni lni-search-alt"></i>
+          </button>
+        </form>
+        <form
+          v-else
+          @submit.prevent="submit"
+          class="flex items-center flex-wrap gap-4 md:gap-0 justify-center">
           <input
             type="text"
             class="form-input p-18 focus:outline-none border-0 outline-none rounded-14 md:w-1/2 w-full md:rounded-r-none"
-            :class="{'form-search': $route.query.search}"
             v-model="search"
             placeholder="e.g. eggs,chicken,corn">
           <button
             class="rounded-14 bg-orange border-1 border-orange text-white md:rounded-l-none w-full md:w-auto p-18"
-            :class="{'form-search': $route.query.search}"
           >
-            <template v-if="$route.query.search"><i class="font-icon lni lni-search-alt"></i></template>
-            <template v-else>Find Recipes</template>
+            <template>Find Recipes</template>
           </button>
         </form>
       </section>
@@ -53,17 +65,12 @@ export default {
     search: '',
   }),
   computed: {
-    ...mapState(['recipes', 'recipeMeta']),
+    ...mapState(['recipes']),
   },
   beforeMount() {
-    window.addEventListener('scroll', this.handleScroll);
-
     document.body.classList.add('js-loading');
 
     window.addEventListener('load', this.showPage, false);
-  },
-  beforeUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
   },
   created() {
     this.search = this.$route?.query?.search;
@@ -76,20 +83,10 @@ export default {
     async submit() {
       this.$router.push({query: {search: this.search}});
 
-      const numberOfIngredients = Math.max(this.search.split(',').length, 2);
       const payload = {
-        q: this.search,
-        ingr: `1-${numberOfIngredients + 1}`
+        ingredients: this.search,
       };
       await this.searchRecipes(payload)
-    },
-    async getNextRecipes() {
-      await this.getNewRecipes(this.recipeMeta._links.next.href);
-    },
-    async handleScroll() {
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        await this.getNextRecipes();
-      }
     },
   },
 }
