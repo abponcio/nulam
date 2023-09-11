@@ -32,7 +32,7 @@ export default {
 
     if (this.search) {
       const payload = {
-        ingredients: this.search,
+        ingredients: this.search.split(','),
       };
 
       await this.searchRecipes(payload);

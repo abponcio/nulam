@@ -34,7 +34,7 @@ export default createStore({
 
       // api search here
       try {
-        const results = await api('get', '/generate-recipes', { ingredients: params.ingredients });
+        const results = await api('get', '/generate-recipes', { ingredients: params.ingredients.join(',') });
         commit('setRecipesList', results.results);
       }
       finally {
