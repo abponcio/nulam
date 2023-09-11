@@ -28,22 +28,24 @@ export default createStore({
     },
   },
   actions: {
-    async searchRecipes({commit, state}, params) {
+    async searchRecipes({ commit }, params) {
       commit('setLoading', true);
       commit('setRecipesList', []);
 
-      const sanitize = params.ingredients ? params.ingredients.split(',').map(ing => ing.trim()).join(',') : '';
-
       // api search here
-      const results = await api('get', '/recipes/findByIngredients', {ingredients: sanitize, ...state.meta});
-      commit('setRecipesList', results);
-      commit('setLoading', false);
+      try {
+        const results = await api('get', '/generate-recipes', { ingredients: params.ingredients });
+        commit('setRecipesList', results.results);
+      }
+      finally {
+        commit('setLoading', false);
+      }
     },
-    async getRecipeInformation({commit}, id) {
+    async getRecipeInformation({ commit }, id) {
       commit('setRecipeLoading', true);
 
       // api search here
-      const results = await api('get', `/recipes/${id}/information`, {includeNutrition: false});
+      const results = await api('get', `/recipes/${id}/information`, { includeNutrition: false });
 
       commit('getRecipeInfo', results);
       commit('setRecipeLoading', false);

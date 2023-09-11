@@ -1,72 +1,61 @@
 <template>
   <div>
-    <div
-      class="isolate px-gutter text-center search-form bg-yellow-gradient h-screen overflow-hidden py-74 relative"
-      :class="{'search-container gap-6': $route.query.search}"
-    >
-      <router-link
-        to="/"
-        class="my-0 mx-auto max-w-288 inline-block"
-        :class="{'logo': $route.query.search}">
-        <inline-svg :src="require('@/assets/svg/logo.svg')" height="100%" width="100%"/>
+    <div class="isolate px-gutter text-center search-form bg-yellow-gradient h-screen overflow-hidden py-74 relative"
+      :class="{ 'search-container gap-6': $route.query.search }">
+      <router-link to="/" class="my-0 mx-auto max-w-288 inline-block" :class="{ 'logo': $route.query.search }">
+        <inline-svg :src="require('@/assets/svg/logo.svg')" height="100%" width="100%" />
       </router-link>
       <h2 class="font-cursive text-center text-20 mt-1.5 tracking-6.4" v-show="!$route.query.search">( ANONG ULAM? )</h2>
-      <section class="form-section" :class="{'mt-60': !$route.query.search}">
-        <h1 class="text-24 leading-29 text-white mb-gutter" v-show="!$route.query.search">Enter ingredients that you have?</h1>
-        <form
-          v-if="$route.query.search"
-          @submit.prevent="submit"
-          class="flex items-center flex-grow-0 justify-end">
-          <input
-            type="text"
-            class="form-search form-input p-18 focus:outline-none border-0 outline-none rounded-14 md:w-1/2 w-full rounded-r-none"
-            v-model="search"
-            placeholder="e.g. eggs,chicken,corn">
-          <button
-            class="form-search rounded-14 bg-orange border-0 border-orange text-white rounded-l-none p-18"
-          >
+      <section class="form-section" :class="{ 'mt-60': !$route.query.search }">
+        <h1 class="text-24 leading-29 text-white mb-gutter" v-show="!$route.query.search">Enter ingredients that
+          you have?
+        </h1>
+        <form v-if="$route.query.search" @submit.prevent="submit" class="flex items-center flex-grow-0 justify-end">
+          <vue3-tags-input
+            class="form-search form-input p-10 focus:outline-none border-0 outline-none rounded-14 md:w-1/2 w-full rounded-r-none"
+            @on-tags-changed="newTags => search = newTags" :tags="search" placeholder="e.g. eggs,chicken or corn" />
+          <button class="rounded-14 bg-orange border-0 flex-0 border-orange text-white rounded-l-none p-16 w-40">
             <i class="font-icon lni lni-search-alt"></i>
           </button>
         </form>
-        <form
-          v-else
-          @submit.prevent="submit"
-          class="flex items-center flex-wrap gap-4 md:gap-0 justify-center">
-          <input
-            type="text"
-            class="form-input p-18 focus:outline-none border-0 outline-none rounded-14 md:w-1/2 w-full md:rounded-r-none"
-            v-model="search"
-            placeholder="e.g. eggs,chicken,corn">
-          <button
-            class="rounded-14 bg-orange border-1 border-orange text-white md:rounded-l-none w-full md:w-auto p-18"
-          >
+        <form v-else @submit.prevent="submit" class="flex items-center flex-wrap gap-4 md:gap-0 justify-center">
+          <vue3-tags-input
+            class="form-input px-18 py-13 focus:outline-none border-0 outline-none rounded-14 md:w-1/2 w-full md:rounded-r-none"
+            @on-tags-changed="newTags => search = newTags" :tags="search" placeholder="e.g. eggs,chicken or corn" />
+          <button class="rounded-14 bg-orange border-1 border-orange text-white md:rounded-l-none w-full md:w-auto p-18">
             Find Recipes
           </button>
         </form>
       </section>
-      <div ref="plate" class="plate-rotate rotate md:max-w-1140 w-full h-auto" v-if="!this.search">
-        <inline-svg :src="require('@/assets/svg/plate.svg')" width="100%"/>
+      <div ref="plate" class="plate-rotate rotate md:max-w-1140 w-full h-auto" v-if="!this.search.length">
+        <inline-svg :src="require('@/assets/svg/plate.svg')" @loaded="handleLoadedPlate" width="100%" />
       </div>
     </div>
     <div class="px-gutter text-center">
-      <router-view/>
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
 import InlineSvg from 'vue-inline-svg';
-import {mapActions, mapState} from 'vuex';
+import Vue3TagsInput from 'vue3-tags-input';
+
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'Home',
-  components: { InlineSvg },
+  components: {
+    InlineSvg,
+    Vue3TagsInput,
+  },
   data: () => ({
-    search: '',
+    search: [],
+    query: '',
   }),
   watch: {
     ['$route.query.search'](value) {
-      this.search = value;
+      this.search = value.split(',');
     },
   },
   computed: {
@@ -74,20 +63,22 @@ export default {
   },
   beforeMount() {
     document.body.classList.add('js-loading');
-
-    window.addEventListener('load', this.showPage, false);
   },
   methods: {
     ...mapActions(['searchRecipes', 'getNewRecipes']),
+    handleLoadedPlate() {
+      this.showPage()
+    },
     showPage() {
       document.body.classList.remove('js-loading');
     },
     async submit() {
-      this.$router.push({query: {search: this.search}});
+      this.$router.push({ query: { search: this.search.join(',') } });
 
       const payload = {
         ingredients: this.search,
       };
+
       await this.searchRecipes(payload)
     },
   },
@@ -98,9 +89,11 @@ export default {
 input:placeholder-shown {
   text-overflow: ellipsis;
 }
+
 .isolate {
   isolation: isolate;
 }
+
 .plate-rotate {
   position: absolute;
   top: 100vh;
@@ -138,7 +131,7 @@ input:placeholder-shown {
 }
 
 .search-container {
-  max-height: 7rem;
+  max-height: 8rem;
   @apply flex items-center py-10 !important;
 }
 
@@ -147,7 +140,7 @@ input:placeholder-shown {
 }
 
 .form-search {
-  @apply text-13 p-10 !important;
+  @apply text-13 p-10;
 }
 
 @keyframes plate {
@@ -155,6 +148,7 @@ input:placeholder-shown {
     transform: translate(-50%, 0) rotate(180deg);
     top: 100%;
   }
+
   to {
     transform: translate(-50%, -50%) rotate(0);
     top: 100%;

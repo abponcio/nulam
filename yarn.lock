@@ -2606,6 +2606,11 @@ cli-width@^3.0.0:
   resolved "https://registry.npm.taobao.org/cli-width/download/cli-width-3.0.0.tgz#a2f48437a2caa9a22436e794bf071ec9e61cedf6"
   integrity sha1-ovSEN6LKqaIkNueUvwceyeYc7fY=
 
+click-outside-vue3@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/click-outside-vue3/-/click-outside-vue3-4.0.1.tgz#81a6ac01696b301764b42db6fdbdf28e7cd8ef95"
+  integrity sha512-sbplNecrup5oGqA3o4bo8XmvHRT6q9fvw21Z67aDbTqB9M6LF7CuYLTlLvNtOgKU6W3zst5H5zJuEh4auqA34g==
+
 clipboardy@^2.3.0:
   version "2.3.0"
   resolved "https://registry.npm.taobao.org/clipboardy/download/clipboardy-2.3.0.tgz#3c2903650c68e46a91b388985bc2774287dba290"
@@ -8788,6 +8793,13 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU=
+
+vue3-tags-input@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/vue3-tags-input/-/vue3-tags-input-1.0.12.tgz#afbd12cff99d2de0dd57113d340879c325c69111"
+  integrity sha512-s5rG+1W3M8+be0nd9H1nv/8WLjJOO6pShgVz8ALAqOiz3tDH5QhGrDH6fzD14ZjJNRWSa3bRBSXQwHEXffPQ6g==
+  dependencies:
+    click-outside-vue3 "^4.0.1"
 
 vue@^3.0.0:
   version "3.2.6"
