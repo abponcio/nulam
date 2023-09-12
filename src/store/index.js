@@ -50,5 +50,12 @@ export default createStore({
       commit('getRecipeInfo', results);
       commit('setRecipeLoading', false);
     },
+    async getRecipeImage(_, title) {
+
+      // api search here
+      const results = await api('get', `/generate-recipe-image`, { title });
+
+      return results;
+    },
   },
 })

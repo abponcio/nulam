@@ -1,15 +1,16 @@
 <template>
     <div class="rounded-14 overflow-hidden shadow-md" :class="{ 'loading': recipeLoading }">
-        <div @click="getLink" class="cursor-pointer">
-            <div class="relative group text-primary-500 rounded-t-14" style="padding-top: 70%">
+        <div @click="openDialog" @close="closeDialog">
+            <div class="relative group text-primary-500 rounded-t-14" style="padding-top: 70%" v-if="!imageLink">
                 <div class="absolute top-0 left-0 h-full w-full rounded-t-14">
                     <span
                         class="skeleton-box group-hover:scale-110 transition-transform transform-center block h-full rounded-t-14"></span>
                 </div>
             </div>
-            <!-- <div>
-                <img :src="item.image" :alt="item.title" loading="lazy" class="rounded rounded-b-none object-cover custom-image w-full h-auto">
-            </div> -->
+            <div v-else>
+                <img :src="imageLink" :alt="item.title" loading="lazy"
+                    class="rounded rounded-b-none object-cover custom-image w-full h-auto">
+            </div>
             <div class="text-left py-20 px-15">
                 <div class="pb-2 border-b-1 border-dashed">
                     <h2 class="text-18 leading-multiline font-semibold">{{ item.title }}</h2>
@@ -27,6 +28,17 @@
                 </div>
             </div>
         </div>
+        <dialog ref="stepsDialog" class="rounded-14">
+            <form method="dialog">
+                <div>
+                    <h1 class="text-left text-24 mb-20 underline">Steps:</h1>
+                    <ol class="list-decimal list-inside">
+                        <li v-for="(step, index) in item.steps" :key="index" class="text-left">{{ step }}</li>
+                    </ol>
+                    <button type="submit" class="border-1 p-8 rounded-14 mt-8" autofocus>close</button>
+                </div>
+            </form>
+        </dialog>
     </div>
 </template>
 
@@ -42,20 +54,26 @@ export default {
         },
     },
     data: () => ({
+        imageLink: '',
         numeral,
     }),
     computed: {
         ...mapState(['recipeLoading']),
     },
+    created() {
+        this.getLink();
+    },
     methods: {
-        ...mapActions(['getRecipeInformation']),
+        ...mapActions(['getRecipeImage']),
         async getLink() {
-            if (!this.item.spoonacularSourceUrl) {
-                await this.getRecipeInformation(this.item.id);
-            }
-
-            window.open(this.item.spoonacularSourceUrl, '_blank');
+            this.imageLink = (await this.getRecipeImage(this.item.title)).results;
         },
+        openDialog() {
+            this.$refs.stepsDialog.showModal();
+        },
+        closeDialog() {
+            this.$refs.stepsDialog.close();
+        }
     },
 }
 </script>
@@ -89,6 +107,10 @@ export default {
 
 .closelist li {
     @apply pl-4;
+}
+
+.step-list {
+    list-style-type: decimal;
 }
 
 .skeleton-box {
