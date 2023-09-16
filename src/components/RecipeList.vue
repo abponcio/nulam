@@ -1,57 +1,68 @@
 <template>
-    <div class="grid">
-        <RecipeListItem :item="recipe" v-for="(recipe, index) in recipes" :key="index"/>
-        <template v-for="n in 20">
-            <SkeletonRecipeListItem  :key="n" v-if="loading"/>
-        </template>
+    <div class="rounded-14 shadow-md overflow-hidden">
+        <div class="skeleton-box" :style="typeClass"></div>
     </div>
 </template>
-<script>
 
-import RecipeListItem from '@/components/RecipeListItem';
-import SkeletonRecipeListItem from '@/components/SkeletonRecipeListItem';
-import {mapState} from 'vuex'
+<script>
 export default {
-    name: 'RecipeList',
+    name: 'Skeleton',
     props: {
-        recipes: {
-            type: Array,
-            default: () => [],
+        type: {
+            type: String,
+            default: 'recipe'
         },
-    },
-    components: {
-        RecipeListItem,
-        SkeletonRecipeListItem,
+        size: {
+            type: String,
+            default: '5px'
+        }
     },
     computed: {
-        ...mapState(['loading']),
+        typeClass() {
+            switch (this.type) {
+                case 'square':
+                    return {
+                        width: `${this.size}px`,
+                        height: `${this.size}px`,
+                    };
+                default:
+                    return {
+                        width: '100%',
+                        height: `${this.size}px`,
+                    };
+            }
+        },
     },
 }
 </script>
 
 <style scoped>
-.grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    gap: 3rem;
-}
-@screen sm {
-    .grid {
-        grid-template-columns: 1fr 1fr;
-    }
+.skeleton-box {
+    position: relative;
+    overflow: hidden;
+    background-color: #FF9F0E;
+    opacity: 0.4;
 }
 
-@screen md {
-    .grid {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
+.skeleton-box::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0,
+            rgba(255, 255, 255, 0.2) 20%,
+            rgba(255, 255, 255, 0.5) 60%,
+            rgba(255, 255, 255, 0));
+    animation: shimmer 3s infinite;
+    content: '';
 }
 
-@screen lg {
-    .grid {
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
     }
 }
-
 </style>
